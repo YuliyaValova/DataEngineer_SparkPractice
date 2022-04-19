@@ -10,7 +10,6 @@ lazy val root = (project in file("."))
 libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
 libraryDependencies +=  "org.apache.spark" %% "spark-core" % "3.2.1",
 libraryDependencies +=  "org.apache.spark" %% "spark-sql" % "3.2.1",
-// https://mvnrepository.com/artifact/com.ibm.db2/jcc
 libraryDependencies += "com.ibm.db2" % "jcc" % "11.5.7.0",
 libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.12.187",
 libraryDependencies += "com.ibm.stocator" % "stocator" % "1.1.4"
