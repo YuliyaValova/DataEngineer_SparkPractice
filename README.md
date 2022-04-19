@@ -32,6 +32,10 @@ This application allows you to start an ETL process consisting of three stages:
 <br>
 --conf spark.endpoint=<i>ENDPOINT</i> \
 <br>
+--conf spark.bucket=<i>BACKET_NAME</i> \
+<br>
+--conf spark.fileName=<i>FILE_NAME</i> \
+<br>
 --class Main <i>PATH_TO_JAR</i>\<i>NAME_OF_JAR</i>.jar</b>
 
 # Quick test
