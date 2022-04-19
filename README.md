@@ -12,6 +12,7 @@ This application allows you to start an ETL process consisting of three stages:
     ![image](https://user-images.githubusercontent.com/73712980/163964187-d6451539-554f-4575-b728-88d28b14e2a4.png)
  
 3) Save the data in CSV format to Cloud Object Storage or locally at the specified path.
+4) A more detailed description of the methods is located in the code of the corresponding interfaces.
 
 # To run this app you need:
 <br>
