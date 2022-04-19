@@ -41,3 +41,4 @@ This application allows you to start an ETL process consisting of three stages:
 # Quick test
 <br>
 You can test this app quickly using pre-made jars - part.jar (with partitioning) and withoutPart.jar (without partitioning).
+In this case, you will not be able to specify from which DB2 instance to fetch data, the table in my database will be used by default.
