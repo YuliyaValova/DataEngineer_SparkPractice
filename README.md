@@ -1,6 +1,4 @@
 # DataEngineer_SparkPractice
-
-## Functionality
 This application allows you to start an ETL process consisting of three stages:
 - Uploading data from DB2 on Cloud to Dataframe format, with the following columns:
 ```sh
@@ -31,32 +29,29 @@ Strongly recomended to use:
 | Scala | 2.12.10 |
 | Git | 2.33.0 |
 
-## How to run application
+## Build
 >All next steps you can do from <b>cmd</b> or <b>PowerShell</b>.
-1. Clone the current version of the repository to your computer.
+ Clone the current version of the repository to your computer.
 ```sh
  git clone https://github.com/YuliyaValova/DataEngineer_SparkPractice
 ```
-2. Go to the project folder.
-```sh
-cd DataEngineer_SparkPractice
-```
-3. Write this command to start sbt.
+
+### Using SBT
+1. Go to the project folder and write this commands to start sbt, reload and package project into jar.
 ```sh
 sbt 
 ```
-4. Write to reload project. 
 ```sh
 reload
 ```
-5. Write to make a jar of the folder.
 ```sh
 package
 ```
 >This process may take some time.
->Check that the .\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar has appeared before proceeding to the next step.
-  
-6. Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
+>Check that the .\target\scala-2.13\sparkPractice_2.12-0.1.0-SNAPSHOT.jar has appeared before proceeding to the running application.
+
+## Run
+ Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
 ```sh
 spark-submit \
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
@@ -70,16 +65,16 @@ spark-submit \
 --conf spark.db2.dbtable=<DB2_TABLE> \
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar
 ```
->TYPE - Type of data destination. Can take one of two values - "fs" (for saving to the computer's file system) or "cos" (for saving to the cloud). <br>
->PATH - Name of the bucket in COS instanse (for "cos" type of saving) or path to your computer's folder(for "fs" type of saving). <br>
->FILE_NAME - Name under which the file will be saved. <br>
->ACCESS_KEY (Optional - only for "cos" type of saving) - Access key from credentials for connection to Cloud Object Storage. <br>
->SECRET_KEY (Optional - only for "cos" type of saving) - Secret key from credentials for connection to Cloud Object Storage. <br>
->ENDPOINT (Optional - only for "cos" type of saving) - Endpoint for connection to Cloud Object Storage. <br>
->DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;" <br>
->DB2_TABLE - Table name from which the data will be uploaded. <br>
->PATH_TO_JAR - The place where the jar is located. Default jar file location: .\\<project_downloaded_in_step_1>\target\scala-2.12 <br>
->NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT" <br>
+- TYPE - Type of data destination. Can take one of two values - "fs" (for saving to the computer's file system) or "cos" (for saving to the cloud). <br>
+- PATH - Name of the bucket in COS instanse (for "cos" type of saving) or path to your computer's folder(for "fs" type of saving). <br>
+- FILE_NAME - Name under which the file will be saved. <br>
+- ACCESS_KEY (Optional - only for "cos" type of saving) - Access key from credentials for connection to Cloud Object Storage. <br>
+- SECRET_KEY (Optional - only for "cos" type of saving) - Secret key from credentials for connection to Cloud Object Storage. <br>
+- ENDPOINT (Optional - only for "cos" type of saving) - Endpoint for connection to Cloud Object Storage. <br>
+- DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;" <br>
+- DB2_TABLE - Table name from which the data will be uploaded. <br>
+- PATH_TO_JAR - The place where the jar is located. Default jar file location: .\\<project_downloaded_in_step_1>\target\scala-2.12 <br>
+- NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT" <br>
 
 ### Example for saving data in local file system ("fs" type)
 ```sh
