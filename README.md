@@ -86,7 +86,5 @@ spark-submit \
 ``` 
 
 # Quick test
-<br>
-You can test this app quickly using pre-made jar - [quickTest.jar]
-<br>
-Just download it add use in spark-submit like in step 6.
+You can test this app quickly using pre-made jar - [quickTest.jar](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/quickTest.jar)
+<br> Just download it add use in spark-submit like in step 6.
