@@ -7,8 +7,7 @@ This application allows you to start an ETL process consisting of three stages:
    * Save the year total as a new column year_purchases
    * Remove the columns with monthly amounts from the data frame
 *** 
-3) Save the data in CSV format to Cloud Object Storage.
-4) A more detailed description of the methods is located in the code of the corresponding interfaces.
+3) Save the data in CSV format to Cloud Object Storage
 
 # To run this app you need:
 <br>
