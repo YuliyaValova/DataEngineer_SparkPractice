@@ -44,36 +44,57 @@ reload
 package
 ```
 >This process may take some time.
->Default jar file location: .\target\scala-2.12
+>Check that the file has appeared before proceeding to the next step.
   
 6. Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
 
-<br>
 <br>./bin/spark-submit \
 <br>
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
 <br>
---conf spark.access.key=<i>ACCESS_KEY</i> \
+--conf spark.access.key=<ACCESS_KEY> \
 <br>
---conf spark.secret.key=<i>SECRET_KEY</i> \
+--conf spark.secret.key=<SECRET_KEY> \
 <br>
---conf spark.endpoint=<i>ENDPOINT</i> \
+--conf spark.endpoint=<ENDPOINT> \
 <br>
---conf spark.bucket=<i>BACKET_NAME</i> \
+--conf spark.bucket=<BACKET_NAME> \
 <br>
---conf spark.fileName=<i>FILE_NAME</i> \
+--conf spark.fileName=<FILE_NAME> \
 <br>
---conf spark.db2.url=<i>DB2_CONNECTION_URL*</i> \
+--conf spark.db2.url=<DB2_CONNECTION_URL> \
 <br>
---conf spark.db2.dbtable=<i>DB2_TABLE*</i> \
+--conf spark.db2.dbtable=<DB2_TABLE> \
 <br>
---class Main <i>PATH_TO_JAR</i>\<i>NAME_OF_JAR</i>.jar</b>
+--class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar</b>
+
+>ACCESS_KEY - Access key from credentials for connection to Cloud Object Storage.
+>SECRET_KEY - Secret key from credentials for connection to Cloud Object Storage.
+>ENDPOINT - Endpoint for connection to Cloud Object Storage.
+>BACKET_NAME - Name of the bucket in COS instanse.
+>FILE_NAME - Тame under which the file will be saved to the bucket.
+>DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;"
+>DB2_TABLE - Table name from which the data will be uploaded.
+>PATH_TO_JAR - The place where the jar is located. Default jar file location: .\<project_downloaded_in_step_1>\target\scala-2.12
+>NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT.jar"
 
 <b> Example </b>
 <br>
 ```sh
+spark-submit \
+--packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--conf spark.access.key=a90pfa76a5ia48adb4a0e9dc66s3e54d \ 
+--conf spark.secret.key=e4539740933ef78888c4b8b24e1q1f9e7m0729db4444bb68 \
+--conf spark.endpoint=http://s3.eu-de.cloud-object-storage.appdomain.cloud \
+--conf spark.fileName=data.csv \
+--conf spark.bucket=storage-test \
+--conf spark.db2.url="jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb:user=qq11111;password=AAA11Aaa1a111Aaa;sslConnection=true;" \
+--conf spark.db2.dbtable=table \
+--class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\untitled5_2.12-0.1.0-SNAPSHOT.jar
 ``` 
 
 # Quick test
 <br>
 You can test this app quickly using pre-made jar - quickTest.jar
+<br>
+Just download it add use in spark-submit like in step 6.
