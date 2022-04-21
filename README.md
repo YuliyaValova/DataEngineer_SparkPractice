@@ -56,7 +56,7 @@ package
 <br>
 --conf spark.secret.key=<SECRET_KEY> \
 <br>
---conf spark.endpoint=<ENDPOINT> \
+--conf spark.endpoint=<<ENDPOINT>> \
 <br>
 --conf spark.bucket=<BACKET_NAME> \
 <br>
