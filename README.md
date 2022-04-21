@@ -56,7 +56,7 @@ package
 <br>
 --conf spark.secret.key=<SECRET_KEY> \
 <br>
---conf spark.endpoint=<<ENDPOINT>> \
+--conf spark.endpoint=<ENDPOINT_> \
 <br>
 --conf spark.bucket=<BACKET_NAME> \
 <br>
@@ -76,7 +76,7 @@ package
 >DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;" <br>
 >DB2_TABLE - Table name from which the data will be uploaded. <br>
 >PATH_TO_JAR - The place where the jar is located. Default jar file location: .\<project_downloaded_in_step_1>\target\scala-2.12 <br>
->NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT.jar" <br>
+>NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT" <br>
 
 <b> Example </b>
 <br>
