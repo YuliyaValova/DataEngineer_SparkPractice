@@ -31,13 +31,11 @@ Strongly recomended to use:
 
 ## Build
 >All next steps you can do from <b>cmd</b> or <b>PowerShell</b>.
- Clone the current version of the repository to your computer.
+ 1. Clone the current version of the repository to your computer.
 ```sh
  git clone https://github.com/YuliyaValova/DataEngineer_SparkPractice
 ```
-
-### Using SBT
-Go to the project folder and write this commands сonsistently to start sbt, to reload and to package project into jar.
+2. Go to the project folder and write this commands сonsistently to start sbt, to reload and to package project into jar.
 ```sh
 sbt 
 ```
@@ -49,9 +47,6 @@ package
 ```
 >This process may take some time.
 >Check that the .\target\scala-2.13\sparkPractice_2.12-0.1.0-SNAPSHOT.jar has appeared before proceeding to the running application.
-
-### Using Java
-...
 
 ## Run
  Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
