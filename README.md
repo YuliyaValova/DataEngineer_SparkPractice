@@ -79,7 +79,6 @@ package
 >NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT" <br>
 
 <b> Example </b>
-<br>
 ```sh
 spark-submit \
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
