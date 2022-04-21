@@ -17,6 +17,7 @@ case class DataLoader() {
         option("partitionColumn", "YEAR").
         option("numPartitions", 10).
         load()
+      df.show()
       Some(df)
     } catch {
       case e: Exception => {
@@ -27,10 +28,23 @@ case class DataLoader() {
     }
   }
 
+  def saveCSV(df: DataFrame): Unit = {
+    val savingType:String = Spark.sparkSession.conf.get("spark.save.type")
+    savingType match {
+      case "cos" => saveCSVToCOS(df)
+      case "fs" => saveCSVtoFs(df)
+      case _ => {
+        println("ERROR:Invalid type for saving data.")
+        System.exit(1)
+      }
+    }
+  }
+
+
   def saveCSVToCOS(df: DataFrame): Unit = {
     try {
       val sparkConf = Spark.sparkSession.conf
-      val bucket = sparkConf.get("spark.bucket")
+      val bucket = sparkConf.get("spark.path")
       val fileName = sparkConf.get("spark.fileName")
       Spark.configureCOS()
       df.write.mode(SaveMode.Overwrite).format("csv").save("cos://" + bucket + ".service/" + fileName)
@@ -48,10 +62,11 @@ case class DataLoader() {
     }
   }
 
-  def saveToCSV(df: DataFrame, path: String): Unit = {
+  def saveCSVtoFs(df: DataFrame): Unit = {
+    val conf = Spark.sparkSession.conf
     df.write.option("header", true)
       .mode(SaveMode.Overwrite)
       .partitionBy("YEAR")
-      .csv(path)
+      .csv(conf.get("spark.path")+"\\" + conf.get("spark.fileName"))
   }
 }
