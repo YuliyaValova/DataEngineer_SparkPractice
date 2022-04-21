@@ -81,15 +81,28 @@ spark-submit \
 >PATH_TO_JAR - The place where the jar is located. Default jar file location: .\\<project_downloaded_in_step_1>\target\scala-2.12 <br>
 >NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT" <br>
 
-<b> Example </b>
+### Example for saving data in local file system ("fs" type)
 ```sh
 spark-submit \
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--conf spark.save.type=fs \
+--conf spark.path=="C:\Users\User\Desktop" \
+--conf spark.fileName=data \
+--conf spark.db2.url="jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb:user=qq11111;password=AAA11Aaa1a111Aaa;sslConnection=true;" \
+--conf spark.db2.dbtable=table \
+--class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
+``` 
+
+### Example for saving data in Cloud Object Storage ("cos" type)
+```sh
+spark-submit \
+--packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--conf spark.save.type=cos \
+--conf spark.path=storage-test \
+--conf spark.fileName=data.csv \
 --conf spark.access.key=a90pfa76a5ia48adb4a0e9dc66s3e54d \ 
 --conf spark.secret.key=e4539740933ef78888c4b8b24e1q1f9e7m0729db4444bb68 \
 --conf spark.endpoint=http://s3.eu-de.cloud-object-storage.appdomain.cloud \
---conf spark.fileName=data.csv \
---conf spark.bucket=storage-test \
 --conf spark.db2.url="jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb:user=qq11111;password=AAA11Aaa1a111Aaa;sslConnection=true;" \
 --conf spark.db2.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
