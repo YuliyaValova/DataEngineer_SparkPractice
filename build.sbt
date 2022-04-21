@@ -6,7 +6,7 @@ ThisBuild / scalaVersion := "2.12.10"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "untitled5",
+    name := "sparkPractice",
 libraryDependencies +=  "org.apache.spark" %% "spark-core" % "3.2.1",
 libraryDependencies +=  "org.apache.spark" %% "spark-sql" % "3.2.1",
 libraryDependencies += "com.ibm.db2" % "jcc" % "11.5.7.0",
