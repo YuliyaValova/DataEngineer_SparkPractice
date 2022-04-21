@@ -68,15 +68,15 @@ package
 <br>
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar</b>
 
->ACCESS_KEY - Access key from credentials for connection to Cloud Object Storage.
->SECRET_KEY - Secret key from credentials for connection to Cloud Object Storage.
->ENDPOINT - Endpoint for connection to Cloud Object Storage.
->BACKET_NAME - Name of the bucket in COS instanse.
->FILE_NAME - Тame under which the file will be saved to the bucket.
->DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;"
->DB2_TABLE - Table name from which the data will be uploaded.
->PATH_TO_JAR - The place where the jar is located. Default jar file location: .\<project_downloaded_in_step_1>\target\scala-2.12
->NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT.jar"
+>ACCESS_KEY - Access key from credentials for connection to Cloud Object Storage. <br>
+>SECRET_KEY - Secret key from credentials for connection to Cloud Object Storage. <br>
+>ENDPOINT - Endpoint for connection to Cloud Object Storage. <br>
+>BACKET_NAME - Name of the bucket in COS instanse. <br>
+>FILE_NAME - Тame under which the file will be saved to the bucket. <br>
+>DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;" <br>
+>DB2_TABLE - Table name from which the data will be uploaded. <br>
+>PATH_TO_JAR - The place where the jar is located. Default jar file location: .\<project_downloaded_in_step_1>\target\scala-2.12 <br>
+>NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT.jar" <br>
 
 <b> Example </b>
 <br>
