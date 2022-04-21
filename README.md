@@ -17,7 +17,7 @@ This application allows you to start an ETL process consisting of three stages:
 |PRODUCT_ID|PRODUCT_GROUP|YEAR|year_purchases|
 +----------+-------------+----+-------+------+
 ```
-- Save the data in CSV format to Cloud Object Storage in three files, partitioned by year.
+- Save the data in CSV format to Cloud Object Storage or locally in several files, partitioned by year.
 
 ## Requirements
 Strongly recomended to use:
@@ -60,22 +60,23 @@ package
 ```sh
 spark-submit \
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--conf spark.save.type=<TYPE> \
+--conf spark.path=<PATH> \
+--conf spark.fileName=<FILE_NAME> \
 --conf spark.access.key=<ACCESS_KEY> \
 --conf spark.secret.key=<SECRET_KEY> \
 --conf spark.endpoint=<ENDPOINT> \
---conf spark.bucket=<BACKET_NAME> \
---conf spark.fileName=<FILE_NAME> \
 --conf spark.db2.url=<DB2_CONNECTION_URL> \
 --conf spark.db2.dbtable=<DB2_TABLE> \
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar
 ```
 </b>
-
->ACCESS_KEY - Access key from credentials for connection to Cloud Object Storage. <br>
->SECRET_KEY - Secret key from credentials for connection to Cloud Object Storage. <br>
->ENDPOINT - Endpoint for connection to Cloud Object Storage. <br>
->BACKET_NAME - Name of the bucket in COS instanse. <br>
->FILE_NAME - Name under which the file will be saved to the bucket. <br>
+>TYPE - Type of data destination. Can take one of two values - "fs" (for saving to the computer's file system) or "cos" (for saving to the cloud). <br>
+>PATH - Name of the bucket in COS instanse (for "cos" type of saving) or path to your computer's folder(for "fs" type of saving). <br>
+>FILE_NAME - Name under which the file will be saved. <br>
+>ACCESS_KEY (Optional - only for "cos" type of saving) - Access key from credentials for connection to Cloud Object Storage. <br>
+>SECRET_KEY (Optional - only for "cos" type of saving) - Secret key from credentials for connection to Cloud Object Storage. <br>
+>ENDPOINT (Optional - only for "cos" type of saving) - Endpoint for connection to Cloud Object Storage. <br>
 >DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;" <br>
 >DB2_TABLE - Table name from which the data will be uploaded. <br>
 >PATH_TO_JAR - The place where the jar is located. Default jar file location: .\\<project_downloaded_in_step_1>\target\scala-2.12 <br>
