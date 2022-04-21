@@ -75,7 +75,7 @@ spark-submit \
 >SECRET_KEY - Secret key from credentials for connection to Cloud Object Storage. <br>
 >ENDPOINT - Endpoint for connection to Cloud Object Storage. <br>
 >BACKET_NAME - Name of the bucket in COS instanse. <br>
->FILE_NAME - Тame under which the file will be saved to the bucket. <br>
+>FILE_NAME - Name under which the file will be saved to the bucket. <br>
 >DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;" <br>
 >DB2_TABLE - Table name from which the data will be uploaded. <br>
 >PATH_TO_JAR - The place where the jar is located. Default jar file location: .\\<project_downloaded_in_step_1>\target\scala-2.12 <br>
