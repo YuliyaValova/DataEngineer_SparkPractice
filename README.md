@@ -44,7 +44,7 @@ reload
 package
 ```
 >This process may take some time.
->Check that the file has appeared before proceeding to the next step.
+>Check that the .\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar has appeared before proceeding to the next step.
   
 6. Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
 ```sh
