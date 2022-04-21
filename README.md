@@ -2,11 +2,21 @@
 
 ## Functionality
 This application allows you to start an ETL process consisting of three stages:
-- Uploading data from DB2 on Cloud to Dataframe format, with the following scheme: (Coming soon...)
+- Uploading data from DB2 on Cloud to Dataframe format, with the following columns:
+```sh
++----------+-------------+----+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+--------+--------+
+|PRODUCT_ID|PRODUCT_GROUP|YEAR|MONTH_1|MONTH_2|MONTH_3|MONTH_4|MONTH_5|MONTH_6|MONTH_7|MONTH_8|MONTH_9|MONTH_10|MONTH_11|MONTH_12|
++----------+-------------+----+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+--------+--------+
+```
 - Transform the data like this:
    * For each row calculate total of monthly purchases
    * Save the year total as a new column year_purchases
    * Remove the columns with monthly amounts from the data frame
+```sh
++----------+-------------+----+-------+------+
+|PRODUCT_ID|PRODUCT_GROUP|YEAR|year_purchases|
++----------+-------------+----+-------+------+
+```
 - Save the data in CSV format to Cloud Object Storage in three files, partitioned by year.
 
 ## Requirements
