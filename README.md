@@ -94,7 +94,3 @@ spark-submit \
 --conf spark.db2.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
 ``` 
-
-# Quick test
-You can test this app quickly using pre-made jar - [quickTest.jar](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/quickTest.jar)
-<br> Just download it add use in spark-submit like in step 6.
