@@ -13,9 +13,9 @@ This application allows you to start an ETL process consisting of three stages:
 <br>
 1. Pull the current version of this repo to your computer.
 <br>
-2. Make a jar of this project using sbt shell: sbt package. By default it's location: .\target\scala-2.12    
+2. Make a jar of this project using sbt shell: sbt package. By default jar's location: .\target\scala-2.12    
 <br>
-3. Update this command with your credentials for COS and run in your spark\bin folder from cmd 
+3. Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd 
 <br>
 <br>./bin/spark-submit \
 <br>
