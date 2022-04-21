@@ -1,4 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0m> Exec(eval System.setProperty("spark.db2.url", "jdbc:db2://b1bc1829-6f45-4cd4-bef4-10cf081900bf.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud:32304/bludb:user=tbf37942;password=BV752Jpa7a930Vcm;sslConnection=true;"), Some(334f8a78-5c85-4c7c-a6b0-cae7a9215239), Some(CommandSource(console0)))[0m
-[0m[[0m[0minfo[0m] [0m[0mans: String = jdbc:db2://b1bc1829-6f45-4cd4-bef4-10cf081900bf.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud:32304/bludb:user=tbf37942;password=BV752Jpa7a930Vcm;sslConnection=true;[0m
-[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
-[0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m

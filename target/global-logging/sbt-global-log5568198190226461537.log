@@ -1,3 +1,0 @@
-[debug] > Exec(eval System.getProperty("spark.db2.dbtable"), None, None)
-[info] ans: String = Sales_test
-[debug] > Exec(idea-shell, None, None)
