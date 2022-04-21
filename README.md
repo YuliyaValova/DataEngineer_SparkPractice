@@ -50,6 +50,9 @@ package
 >This process may take some time.
 >Check that the .\target\scala-2.13\sparkPractice_2.12-0.1.0-SNAPSHOT.jar has appeared before proceeding to the running application.
 
+### Using Java
+...
+
 ## Run
  Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
 ```sh
