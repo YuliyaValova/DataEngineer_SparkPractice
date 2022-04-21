@@ -37,7 +37,7 @@ Strongly recomended to use:
 ```
 
 ### Using SBT
-Go to the project folder and write this commands to start sbt, reload and package project into jar.
+Go to the project folder and write this commands сonsistently to start sbt, to reload and to package project into jar.
 ```sh
 sbt 
 ```
