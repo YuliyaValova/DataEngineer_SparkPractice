@@ -86,7 +86,7 @@ spark-submit \
 spark-submit \
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
 --conf spark.save.type=fs \
---conf spark.path=="C:\Users\User\Desktop" \
+--conf spark.path="C:\Users\User\Desktop" \
 --conf spark.fileName=data \
 --conf spark.db2.url="jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb:user=qq11111;password=AAA11Aaa1a111Aaa;sslConnection=true;" \
 --conf spark.db2.dbtable=table \
