@@ -70,7 +70,6 @@ spark-submit \
 --conf spark.db2.dbtable=<DB2_TABLE> \
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar
 ```
-</b>
 >TYPE - Type of data destination. Can take one of two values - "fs" (for saving to the computer's file system) or "cos" (for saving to the cloud). <br>
 >PATH - Name of the bucket in COS instanse (for "cos" type of saving) or path to your computer's folder(for "fs" type of saving). <br>
 >FILE_NAME - Name under which the file will be saved. <br>
