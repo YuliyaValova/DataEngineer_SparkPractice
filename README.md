@@ -117,7 +117,7 @@ spark-submit \
 --conf spark.access.key=a90pfa76a5ia48adb4a0e9dc66s3e54d \ 
 --conf spark.secret.key=e4539740933ef78888c4b8b24e1q1f9e7m0729db4444bb68 \
 --conf spark.endpoint=http://s3.eu-de.cloud-object-storage.appdomain.cloud \
---conf spark.url="jdbc:mysql://localhost:3306/db-name?user=user_name&password=db_password&useSSL=false" \
+--conf spark.url="jdbc:mysql://localhost:3306/db-name?user=user_name&password=db_password" \
 --conf spark.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
 ``` 
