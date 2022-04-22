@@ -10,7 +10,7 @@ case object Main {
   def main(args: Array[String]): Unit = {
     val loader = new DataLoader
     val transformer = new DataTransformer
-    val df = loader.getDataFrameFromDB2OnCloud()//extract data
+    val df = loader.getData()//extract data
     var transformedDF:Option[DataFrame] = None
     df match {
       case Some(df) => transformedDF = transformer.calcTotalPurchases(df) //transform data

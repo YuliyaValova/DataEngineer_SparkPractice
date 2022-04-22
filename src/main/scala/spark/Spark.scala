@@ -10,9 +10,7 @@ object Spark {
 
   val sparkSession = SparkSession
     .builder()
-    .master("local[3]")
     .appName("Spark SQL basic example")
-    .config("driver", "com.ibm.db2.jcc.DB2Driver")
     .config("driver_type", "jdbc")
     .getOrCreate()
 

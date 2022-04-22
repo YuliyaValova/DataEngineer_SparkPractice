@@ -5,13 +5,14 @@ import spark.Spark
 
 case class DataLoader() {
 
-  def getDataFrameFromDB2OnCloud(): Option[DataFrame] = {
+  def getData(): Option[DataFrame] = {
     val conf = Spark.sparkSession.conf
+    val driver = getDriver()
     try {
       val df = Spark.sparkSession.read.format(conf.get("driver_type")).
-        option("url", conf.get("spark.db2.url")).
-        option("dbtable", conf.get("spark.db2.dbtable")).
-        option("driver", conf.get("driver")).
+        option("url", conf.get("spark.url")).
+        option("dbtable", conf.get("spark.dbtable")).
+        option("driver", driver).
         option("lowerBound", 2015).
         option("upperBound", 2018).
         option("partitionColumn", "YEAR").
@@ -21,12 +22,27 @@ case class DataLoader() {
       Some(df)
     } catch {
       case e: Exception => {
-        println("ERROR in getDataFrameFromDB2OnCloud method.")
+        println("ERROR in getData method.")
         e.printStackTrace()
         None
       }
     }
   }
+
+  def getDriver(): String = {
+    val sourceType:String = Spark.sparkSession.conf.get("spark.source")
+    var driver = ""
+    sourceType match {
+      case "mysql" => driver = "com.mysql.cj.jdbc.Driver"
+      case "db2" => driver = "com.ibm.db2.jcc.DB2Driver"
+      case _ => {
+        println("ERROR:Invalid type of source.")
+        System.exit(1)
+      }
+    }
+    driver
+  }
+
 
   def saveCSV(df: DataFrame): Unit = {
     val savingType:String = Spark.sparkSession.conf.get("spark.save.type")
@@ -34,7 +50,7 @@ case class DataLoader() {
       case "cos" => saveCSVToCOS(df)
       case "fs" => saveCSVtoFs(df)
       case _ => {
-        println("ERROR:Invalid type for saving data.")
+        println("ERROR:Invalid saving data type.")
         System.exit(1)
       }
     }
