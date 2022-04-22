@@ -53,7 +53,7 @@ package
 ```sh
 spark-submit \
 --master <SPARK_MASTER> \
---packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--packages <PACKAGES> \
 --conf spark.source=<SOURCE_DB> \
 --conf spark.save.type=<TYPE> \
 --conf spark.path=<PATH> \
@@ -66,6 +66,15 @@ spark-submit \
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar
 ```
 - SPARK_MASTER - The master URL for the cluster (e.g. spark://23.195.26.187:7077 or local[3])
+- PACKAGES - Different dependencies that are required. F.eg.:
+
+    | Package | Description |
+    | ------ | ------ |
+    | com.ibm.db2:jcc:11.5.7.0 | Need for extracting data from DB2 on Cloud|
+    | mysql:mysql-connector-java:8.0.27 | Need for extracting data from MySQL|
+    | com.amazonaws:aws-java-sdk:1.11.46 | Need for saving data to COS |
+    | com.ibm.stocator:stocator:1.1.4 |  Need for saving data to COS |
+
 - SOURCE_DB - Database from which you extract data. Types currently supported: "mysql", "db2".
 - TYPE - Type of data destination. Can take one of two values: 
   * "fs" (for saving to the computer's file system) 
@@ -86,7 +95,7 @@ spark-submit \
 ```sh
 spark-submit \
 --master local[3]
---packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--packages com.ibm.db2:jcc:11.5.7.0 \
 --conf spark.source=db2 \
 --conf spark.save.type=fs \
 --conf spark.path="C:\Users\User\Desktop" \
@@ -100,7 +109,7 @@ spark-submit \
 ```sh
 spark-submit \
 --master local[3]
---packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--packages mysql:mysql-connector-java:8.0.27,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
 --conf spark.source=mysql \
 --conf spark.save.type=cos \
 --conf spark.path=storage-test \
