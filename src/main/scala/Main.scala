@@ -22,7 +22,7 @@ case object Main {
     transformedDF match {
       case Some(transformedDF) => loader.saveCSV(transformedDF) //load data
       case None => {
-        println("Reading data transforming step failed.")
+        println("Data transforming step failed.")
         System.exit(1)
       }
     }
