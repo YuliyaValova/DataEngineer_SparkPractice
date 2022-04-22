@@ -1,6 +1,6 @@
 # DataEngineer_SparkPractice
 This application allows you to start an ETL process consisting of three stages:
-- Uploading data from DB2 on Cloud or from MySql (Coming soon...) to Dataframe format, with the following columns:
+- Uploading data from DB2 on Cloud or from MySQL (Coming soon...) to Dataframe format, with the following columns:
 ```sh
 +----------+-------------+----+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+--------+--------+
 |PRODUCT_ID|PRODUCT_GROUP|YEAR|MONTH_1|MONTH_2|MONTH_3|MONTH_4|MONTH_5|MONTH_6|MONTH_7|MONTH_8|MONTH_9|MONTH_10|MONTH_11|MONTH_12|
@@ -86,7 +86,7 @@ spark-submit \
 - ENDPOINT (Optional - only for "cos" type of saving) - Endpoint for connection to Cloud Object Storage. <br>
 - CONNECTION_URL - Url for jdbc connection. It will looks like :
   * "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;"  (For db2 SOURCE_DB)
-  * "jdbc:mysql://localhost:3306/"  (For mysql SOURCE_DB)
+  * "jdbc:mysql://localhost:3306/dbname?user=...&password=...&useSSL=false"  (For mysql SOURCE_DB)
 - TABLE - Table name from which the data will be uploaded. <br>
 - PATH_TO_JAR - The place where the jar is located. Default jar file location: .\\<project_downloaded_in_step_1>\target\scala-2.12 <br>
 - NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT" <br>
