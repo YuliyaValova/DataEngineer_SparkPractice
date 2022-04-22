@@ -1,16 +1,18 @@
 package load
 
-import org.apache.spark.sql.{DataFrame, SaveMode}
+import org.apache.spark.sql.{DataFrame, RuntimeConfig, SaveMode}
 import spark.Spark
 
 case class DataLoader() {
 
   def getData(): Option[DataFrame] = {
     val conf = Spark.sparkSession.conf
-    val driver = getDriver()
+    val sourceType: String = conf.get("spark.source")
+    val driver = getDriver(sourceType)
+    val connectionUrl: String = prepareUrl(sourceType)
     try {
       val df = Spark.sparkSession.read.format(conf.get("driver_type")).
-        option("url", conf.get("spark.url")).
+        option("url", connectionUrl).
         option("dbtable", conf.get("spark.dbtable")).
         option("driver", driver).
         option("lowerBound", 2015).
@@ -18,7 +20,6 @@ case class DataLoader() {
         option("partitionColumn", "YEAR").
         option("numPartitions", 10).
         load()
-      df.show()
       Some(df)
     } catch {
       case e: Exception => {
@@ -29,8 +30,23 @@ case class DataLoader() {
     }
   }
 
-  def getDriver(): String = {
-    val sourceType:String = Spark.sparkSession.conf.get("spark.source")
+  def prepareUrl(sourceType: String): String = {
+    val conf = Spark.sparkSession.conf
+    var url = conf.get("spark.source.url")
+    val password = conf.get("spark.source.password")
+    val username = conf.get("spark.source.username")
+    sourceType match {
+      case "mysql" => url += "?user=" + username + "&password=" + password
+      case "db2" => url += ":user=" + username + ";password=" + password + ";sslConnection=true;"
+      case _ => {
+        println("ERROR:Invalid type of source.")
+        System.exit(1)
+      }
+    }
+    url
+  }
+
+  def getDriver(sourceType: String): String = {
     var driver = ""
     sourceType match {
       case "mysql" => driver = "com.mysql.cj.jdbc.Driver"
@@ -45,7 +61,7 @@ case class DataLoader() {
 
 
   def saveCSV(df: DataFrame): Unit = {
-    val savingType:String = Spark.sparkSession.conf.get("spark.save.type")
+    val savingType: String = Spark.sparkSession.conf.get("spark.save.type")
     savingType match {
       case "cos" => saveCSVToCOS(df)
       case "fs" => saveCSVtoFs(df)
@@ -87,6 +103,6 @@ case class DataLoader() {
     df.write.option("header", true)
       .mode(SaveMode.Overwrite)
       .partitionBy("YEAR")
-      .csv(conf.get("spark.path")+"\\" + conf.get("spark.fileName"))
+      .csv(conf.get("spark.path") + "\\" + conf.get("spark.fileName"))
   }
 }
