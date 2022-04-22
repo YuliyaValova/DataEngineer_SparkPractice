@@ -94,7 +94,7 @@ spark-submit \
 ### Example for saving data in local file system ("fs" type) with "db2" as source
 ```sh
 spark-submit \
---master local[3]
+--master local[3] \
 --packages com.ibm.db2:jcc:11.5.7.0 \
 --conf spark.source=db2 \
 --conf spark.save.type=fs \
@@ -108,7 +108,7 @@ spark-submit \
 ### Example for saving data in Cloud Object Storage ("cos" type) with "mysql" as source
 ```sh
 spark-submit \
---master local[3]
+--master local[3] \
 --packages mysql:mysql-connector-java:8.0.27,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
 --conf spark.source=mysql \
 --conf spark.save.type=cos \
