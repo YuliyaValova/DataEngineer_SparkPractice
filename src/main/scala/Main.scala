@@ -15,14 +15,14 @@ case object Main {
     df match {
       case Some(df) => transformedDF = transformer.calcTotalPurchases(df) //transform data
       case None => {
-        println("Data transformation step is failed.")
+        println("Data loading step is failed.")
         System.exit(1)
       }
     }
     transformedDF match {
       case Some(transformedDF) => loader.saveCSV(transformedDF) //load data
       case None => {
-        println("Reading data fom DB2 failed.")
+        println("Reading data transforming step failed.")
         System.exit(1)
       }
     }
