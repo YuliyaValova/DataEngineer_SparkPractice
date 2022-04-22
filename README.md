@@ -35,15 +35,14 @@ Strongly recomended to use:
 ```sh
  git clone https://github.com/YuliyaValova/DataEngineer_SparkPractice
 ```
-2. Go to the project folder and write this commands сonsistently to start sbt, to reload and to package project into jar.
+2. Go to the project folder and write this commands:
+ * To reload project using sbt.
 ```sh
-sbt 
+sbt reload
 ```
+  * To package project into jar.
 ```sh
-reload
-```
-```sh
-package
+sbt package
 ```
 >This process may take some time.
 >Check that the .\target\scala-2.13\sparkPractice_2.12-0.1.0-SNAPSHOT.jar has appeared before proceeding to the running application.
@@ -52,8 +51,8 @@ package
  Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
 ```sh
 spark-submit \
---master <SPARK_MASTER> \
 --packages <PACKAGES> \
+--conf spark.master=<SPARK_MASTER> \
 --conf spark.source=<SOURCE_DB> \
 --conf spark.save.type=<TYPE> \
 --conf spark.path=<PATH> \
@@ -62,10 +61,11 @@ spark-submit \
 --conf spark.secret.key=<SECRET_KEY> \
 --conf spark.endpoint=<ENDPOINT> \
 --conf spark.url=<CONNECTION_URL> \
+--conf spark.username=<USERNAME> \
+--conf spark.password=<PASSWORD> \
 --conf spark.dbtable=<TABLE> \
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar
 ```
-- SPARK_MASTER - The master URL for the cluster (e.g. spark://23.195.26.187:7077 or local[3])
 - PACKAGES - Different dependencies that are required. F.eg.:
 
     | Package | Description |
@@ -74,7 +74,8 @@ spark-submit \
     | mysql:mysql-connector-java:8.0.27 | Need for extracting data from MySQL|
     | com.amazonaws:aws-java-sdk:1.11.46 | Need for saving data to COS |
     | com.ibm.stocator:stocator:1.1.4 |  Need for saving data to COS |
-
+    
+- SPARK_MASTER - The master URL for the cluster (e.g. spark://23.195.26.187:7077 or local[3])
 - SOURCE_DB - Database from which you extract data. Types currently supported: "mysql", "db2".
 - TYPE - Type of data destination. Can take one of two values: 
   * "fs" (for saving to the computer's file system) 
@@ -85,8 +86,10 @@ spark-submit \
 - SECRET_KEY (Optional - only for "cos" type of saving) - Secret key from credentials for connection to Cloud Object Storage. <br>
 - ENDPOINT (Optional - only for "cos" type of saving) - Endpoint for connection to Cloud Object Storage. <br>
 - CONNECTION_URL - Url for jdbc connection. It will looks like :
-  * "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;"  (For db2 SOURCE_DB)
-  * "jdbc:mysql://localhost:3306/dbname?user=...&password=...&useSSL=false"  (For mysql SOURCE_DB)
+  * "jdbc:db2://host:port/db_name" (For db2 SOURCE_DB)
+  * "jdbc:mysql://host:port/db_name" (For mysql SOURCE_DB)
+- USERNAME - Your database username.
+- PASSWORD - Password for database connection.
 - TABLE - Table name from which the data will be uploaded. <br>
 - PATH_TO_JAR - The place where the jar is located. Default jar file location: .\\<project_downloaded_in_step_1>\target\scala-2.12 <br>
 - NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT" <br>
@@ -94,13 +97,15 @@ spark-submit \
 ### Example for saving data in local file system ("fs" type) with "db2" as source
 ```sh
 spark-submit \
---master local[3] \
 --packages com.ibm.db2:jcc:11.5.7.0 \
+--conf spark.master=local[3] \
 --conf spark.source=db2 \
 --conf spark.save.type=fs \
 --conf spark.path="C:\Users\User\Desktop" \
 --conf spark.fileName=data \
---conf spark.url="jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb:user=qq11111;password=AAA11Aaa1a111Aaa;sslConnection=true;" \
+--conf spark.url=jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb \
+--conf spark.username=qq11111 \
+--conf spark.password=AAA11Aaa1a111Aaa \
 --conf spark.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
 ``` 
@@ -108,8 +113,8 @@ spark-submit \
 ### Example for saving data in Cloud Object Storage ("cos" type) with "mysql" as source
 ```sh
 spark-submit \
---master local[3] \
 --packages mysql:mysql-connector-java:8.0.27,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--conf spark.master=local[3] \
 --conf spark.source=mysql \
 --conf spark.save.type=cos \
 --conf spark.path=storage-test \
@@ -117,7 +122,9 @@ spark-submit \
 --conf spark.access.key=a90pfa76a5ia48adb4a0e9dc66s3e54d \ 
 --conf spark.secret.key=e4539740933ef78888c4b8b24e1q1f9e7m0729db4444bb68 \
 --conf spark.endpoint=http://s3.eu-de.cloud-object-storage.appdomain.cloud \
---conf spark.url="jdbc:mysql://localhost:3306/db-name?user=user_name&password=db_password" \
+--conf spark.url=jdbc:mysql://localhost:3306/db-name \
+--conf spark.username=root \
+--conf spark.password=root \
 --conf spark.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
 ``` 
