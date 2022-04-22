@@ -1,6 +1,6 @@
 # DataEngineer_SparkPractice
 This application allows you to start an ETL process consisting of three stages:
-- Uploading data from DB2 on Cloud to Dataframe format, with the following columns:
+- Uploading data from DB2 on Cloud or from MySql (Coming soon...) to Dataframe format, with the following columns:
 ```sh
 +----------+-------------+----+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+--------+--------+
 |PRODUCT_ID|PRODUCT_GROUP|YEAR|MONTH_1|MONTH_2|MONTH_3|MONTH_4|MONTH_5|MONTH_6|MONTH_7|MONTH_8|MONTH_9|MONTH_10|MONTH_11|MONTH_12|
@@ -52,51 +52,63 @@ package
  Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
 ```sh
 spark-submit \
+--master <SPARK_MASTER> \
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--conf spark.source=<SOURCE_DB> \
 --conf spark.save.type=<TYPE> \
 --conf spark.path=<PATH> \
 --conf spark.fileName=<FILE_NAME> \
 --conf spark.access.key=<ACCESS_KEY> \
 --conf spark.secret.key=<SECRET_KEY> \
 --conf spark.endpoint=<ENDPOINT> \
---conf spark.db2.url=<DB2_CONNECTION_URL> \
---conf spark.db2.dbtable=<DB2_TABLE> \
+--conf spark.url=<CONNECTION_URL> \
+--conf spark.dbtable=<TABLE> \
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar
 ```
-- TYPE - Type of data destination. Can take one of two values - "fs" (for saving to the computer's file system) or "cos" (for saving to the cloud). <br>
+- SPARK_MASTER - The master URL for the cluster (e.g. spark://23.195.26.187:7077 or local[3])
+- SOURCE_DB - Database from which you extract data. Types currently supported: "mysql", "db2".
+- TYPE - Type of data destination. Can take one of two values: 
+  * "fs" (for saving to the computer's file system) 
+  * "cos" (for saving to the cloud). <br>
 - PATH - Name of the bucket in COS instanse (for "cos" type of saving) or path to your computer's folder(for "fs" type of saving). <br>
 - FILE_NAME - Name under which the file will be saved. <br>
 - ACCESS_KEY (Optional - only for "cos" type of saving) - Access key from credentials for connection to Cloud Object Storage. <br>
 - SECRET_KEY (Optional - only for "cos" type of saving) - Secret key from credentials for connection to Cloud Object Storage. <br>
 - ENDPOINT (Optional - only for "cos" type of saving) - Endpoint for connection to Cloud Object Storage. <br>
-- DB2_CONNECTION_URL - Url for jdbc connection to DB2 on Cloud. It will looks like : "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;" <br>
-- DB2_TABLE - Table name from which the data will be uploaded. <br>
+- CONNECTION_URL - Url for jdbc connection. It will looks like :
+  * "jdbc:db2://url/db_name:user=...;password=...;sslConnection=true;"  (For db2 SOURCE_DB)
+  * "jdbc:mysql://localhost:3306/"  (For mysql SOURCE_DB)
+- TABLE - Table name from which the data will be uploaded. <br>
 - PATH_TO_JAR - The place where the jar is located. Default jar file location: .\\<project_downloaded_in_step_1>\target\scala-2.12 <br>
 - NAME_OF_JAR - Name of the jar. According to the build.sbt it is "sparkPractice_2.12-0.1.0-SNAPSHOT" <br>
 
-### Example for saving data in local file system ("fs" type)
+### Example for saving data in local file system ("fs" type) with "db2" as source
 ```sh
 spark-submit \
+--master local[3]
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--conf spark.source=db2 \
 --conf spark.save.type=fs \
 --conf spark.path="C:\Users\User\Desktop" \
 --conf spark.fileName=data \
---conf spark.db2.url="jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb:user=qq11111;password=AAA11Aaa1a111Aaa;sslConnection=true;" \
---conf spark.db2.dbtable=table \
+--conf spark.url="jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb:user=qq11111;password=AAA11Aaa1a111Aaa;sslConnection=true;" \
+--conf spark.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
 ``` 
 
-### Example for saving data in Cloud Object Storage ("cos" type)
+### Example for saving data in Cloud Object Storage ("cos" type) with "mysql" as source
 ```sh
 spark-submit \
+--master local[3]
 --packages com.ibm.db2:jcc:11.5.7.0,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
+--conf spark.source=mysql \
 --conf spark.save.type=cos \
 --conf spark.path=storage-test \
 --conf spark.fileName=data.csv \
 --conf spark.access.key=a90pfa76a5ia48adb4a0e9dc66s3e54d \ 
 --conf spark.secret.key=e4539740933ef78888c4b8b24e1q1f9e7m0729db4444bb68 \
 --conf spark.endpoint=http://s3.eu-de.cloud-object-storage.appdomain.cloud \
---conf spark.db2.url="jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb:user=qq11111;password=AAA11Aaa1a111Aaa;sslConnection=true;" \
---conf spark.db2.dbtable=table \
+--conf spark.url="jdbc:mysql://localhost:3306/db-name?user=user_name&password=db_password&useSSL=false" \
+--conf spark.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
 ``` 
