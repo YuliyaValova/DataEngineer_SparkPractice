@@ -14,13 +14,18 @@ case object Main {
     var transformedDF:Option[DataFrame] = None
     df match {
       case Some(df) => transformedDF = transformer.calcTotalPurchases(df) //transform data
-      case None => System.exit(1)
+      case None => {
+        println("Data transformation step is failed.")
+        System.exit(1)
+      }
     }
     transformedDF match {
       case Some(transformedDF) => loader.saveCSV(transformedDF) //load data
-      case None => System.exit(1)
+      case None => {
+        println("Reading data fom DB2 failed.")
+        System.exit(1)
+      }
     }
     println("Job completed.")
   }
-  //loader.saveToCSV(transformedDF, "C:\\Users\\User\\Desktop\\untitled5\\transformedDF\\")
 }

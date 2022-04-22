@@ -17,7 +17,7 @@ case class DataTransformer() {
       Some(dfWithTotal)
     } catch {
       case e: Exception => {
-        println("ERROR: Data transforming failed.")
+        println("ERROR in calcTotalPurchases method.")
         e.printStackTrace()
         None
       }

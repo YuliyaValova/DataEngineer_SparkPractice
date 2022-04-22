@@ -21,7 +21,7 @@ case class DataLoader() {
       Some(df)
     } catch {
       case e: Exception => {
-        println("ERROR: Reading data fom DB2 failed")
+        println("ERROR in getDataFrameFromDB2OnCloud method.")
         e.printStackTrace()
         None
       }
@@ -47,7 +47,11 @@ case class DataLoader() {
       val bucket = sparkConf.get("spark.path")
       val fileName = sparkConf.get("spark.fileName")
       Spark.configureCOS()
-      df.write.mode(SaveMode.Overwrite).format("csv").save("cos://" + bucket + ".service/" + fileName)
+      df.write.mode(SaveMode.Overwrite)
+        .option("inferSchema", true)
+        .option("header", true)
+        .format("csv")
+        .save("cos://" + bucket + ".service/" + fileName)
     } catch {
       case e: NoSuchElementException => {
         println("ERROR:COS properties not found")
