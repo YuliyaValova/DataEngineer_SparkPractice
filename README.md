@@ -60,9 +60,9 @@ spark-submit \
 --conf spark.access.key=<ACCESS_KEY> \
 --conf spark.secret.key=<SECRET_KEY> \
 --conf spark.endpoint=<ENDPOINT> \
---conf spark.url=<CONNECTION_URL> \
---conf spark.username=<USERNAME> \
---conf spark.password=<PASSWORD> \
+--conf spark.source.url=<CONNECTION_URL> \
+--conf spark.source.username=<USERNAME> \
+--conf spark.source.password=<PASSWORD> \
 --conf spark.dbtable=<TABLE> \
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar
 ```
@@ -103,9 +103,9 @@ spark-submit \
 --conf spark.save.type=fs \
 --conf spark.path="C:\Users\User\Desktop" \
 --conf spark.fileName=data \
---conf spark.url=jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb \
---conf spark.username=qq11111 \
---conf spark.password=AAA11Aaa1a111Aaa \
+--conf spark.source.url=jdbc:db2://b1bc1111-6v15-8cd4-dop4-10cf777777bf.c1ogj3sd0qgqu0lqde00.databases.appdomain.cloud:37506/bludb \
+--conf spark.source.username=qq11111 \
+--conf spark.source.password=AAA11Aaa1a111Aaa \
 --conf spark.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
 ``` 
@@ -122,9 +122,9 @@ spark-submit \
 --conf spark.access.key=a90pfa76a5ia48adb4a0e9dc66s3e54d \ 
 --conf spark.secret.key=e4539740933ef78888c4b8b24e1q1f9e7m0729db4444bb68 \
 --conf spark.endpoint=http://s3.eu-de.cloud-object-storage.appdomain.cloud \
---conf spark.url=jdbc:mysql://localhost:3306/db-name \
---conf spark.username=root \
---conf spark.password=root \
+--conf spark.source.url=jdbc:mysql://localhost:3306/db-name \
+--conf spark.source.username=root \
+--conf spark.source.password=root \
 --conf spark.dbtable=table \
 --class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
 ``` 
