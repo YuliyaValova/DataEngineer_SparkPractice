@@ -4,6 +4,7 @@ COPY ./DataEngineer_SparkPractice/lib/* /app/
 WORKDIR /app/
 
 Запуск (Source-DB2, Destination-COS):
+docker build -t spark .
 docker run spark spark-submit --master local[3] --jars "./*" \
 --conf spark.save.type=cos \
 --conf spark.path=(bucket) \
