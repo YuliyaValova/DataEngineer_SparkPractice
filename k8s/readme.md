@@ -19,5 +19,5 @@
 	```
 	
 - POD_NAME - Name of the created pod, that you look at step 5.
-- SPARK_CONFIGS - Spark configuration parameters in format "--conf key=value" 
+- SPARK_CONFIGS - Spark configuration parameters in format "--conf key=value" (Examples - [here](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/README.md))
 	
