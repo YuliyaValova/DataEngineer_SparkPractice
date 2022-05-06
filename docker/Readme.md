@@ -11,9 +11,11 @@
 	```
 	
 # Example for docker run (for DB2 and COS)
+- Create an image:
 	```sh 
 	docker build -t spark .
 	```
+- Run app:
 	```sh
 	docker run spark spark-submit \
 	--master local[3] \
