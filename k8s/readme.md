@@ -1,4 +1,4 @@
-To start a spark job inside the pod(deployment) you need:
+# To start a spark job inside the pod(deployment) you need:
 1) Download a spark.yaml file.
 2) Replace <YOUR_IMAGE_NAME> with your image name.                  
 3) Start your k8s, e.g. if you use Minikube:
