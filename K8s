@@ -1,0 +1,36 @@
+To start a job inside the pod(deployment) you need:
+1) Write a .yaml file like this:
+ *spark.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-deployment
+spec:
+  selector:
+    matchLabels:
+      app: spark
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spark
+    spec:
+      containers:
+      - name: spark
+        image: <YOUR_IMAGE_NAME>
+        ports:
+        - containerPort: 80
+          protocol: TCP
+                  
+2) Start your k8s, e.g.
+minikube start
+
+3) Write to create a deployment
+kubectl apply -f ./spark.yaml 
+
+4) Write to find this pod name
+kubectl get pods 
+
+5) kubectl exec <POD_NAME> -- spark-submit --jars "./*" --conf ... --class Main sparkpractice_2.12-0.1.0-SNAPSHOT.jar
+
+
