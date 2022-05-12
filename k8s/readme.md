@@ -9,5 +9,5 @@
 4) Write this to create a deployment on .yaml file base:
 	```sh
 	kubectl apply -f ./spark.yaml 
-	``
+	```
 	
