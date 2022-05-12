@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: spark2-test
+  name: spark
 spec:
   containers:
   - name: spark
