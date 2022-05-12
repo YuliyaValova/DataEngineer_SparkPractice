@@ -1,7 +1,7 @@
 # To start a spark job inside the pod(deployment) you need:
 1) Download a spark.yaml file and secrets.yaml file.
 2) Replace <YOUR_IMAGE_NAME> with your image name in spark.yaml
-3) Add credentials and other configs in secrets.yaml (in format "key: value" (Examples - [here](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/README.md)))      
+3) Add credentials and other configs in secrets.yaml (in format "key: value" (Parameter's descriptions - [here](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/README.md)))      
 4) Start your k8s, e.g. if you use Minikube:
 	```sh
 	minikube start
