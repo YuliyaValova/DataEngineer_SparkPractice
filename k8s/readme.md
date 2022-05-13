@@ -16,3 +16,8 @@
 	kubectl apply -f ./spark.yaml 
 	```
 	
+You can see logs, writing:
+```sh
+kubectl logs <YOUR_POD_NAME>
+```
+	
