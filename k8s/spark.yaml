@@ -69,7 +69,7 @@ spec:
     image:  <YOUR_IMAGE_NAME>
     command: ["/bin/sh", "-c"]
     args:
-    - spark-submit --master $spark_master --packages com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4,com.ibm.db2:jcc:11.5.7.0  --conf spark.save.type=$spark_save_type --conf spark.path=$spark_path --conf spark.fileName=$spark_fileName --conf spark.access.key=$spark_access_key --conf spark.secret.key=$spark_secret_key --conf spark.endpoint=$spark_endpoint --conf spark.source=$spark_source --conf spark.source.url=$spark_source_url --conf spark.source.username=$spark_source_username --conf spark.source.password=$spark_source_password --conf spark.dbtable=$spark_dbtable --class Main sparkpractice_2.12-0.1.0-SNAPSHOT.jar
+    - spark-submit --master $spark_master --conf spark.save.type=$spark_save_type --conf spark.path=$spark_path --conf spark.fileName=$spark_fileName --conf spark.access.key=$spark_access_key --conf spark.secret.key=$spark_secret_key --conf spark.endpoint=$spark_endpoint --conf spark.source=$spark_source --conf spark.source.url=$spark_source_url --conf spark.source.username=$spark_source_username --conf spark.source.password=$spark_source_password --conf spark.dbtable=$spark_dbtable --class Main sparkPractice-assembly-0.1.0-SNAPSHOT.jar
     ports:
     - containerPort: 80
       protocol: TCP
