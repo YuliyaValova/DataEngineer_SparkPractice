@@ -42,16 +42,15 @@ sbt reload
 ```
   * To package project into jar.
 ```sh
-sbt package
+sbt assembly
 ```
 >This process may take some time.
->Check that the .\target\scala-2.13\sparkPractice_2.12-0.1.0-SNAPSHOT.jar has appeared before proceeding to the running application.
+>Check that the .\target\scala-2.12\sparkPractice-assembly-0.1.0-SNAPSHOT.jar has appeared before proceeding to the running application.
 
 ## Run
  Update this command with your credentials for COS & DB2 and run in your spark\bin folder from cmd
 ```sh
 spark-submit \
---packages <PACKAGES> \
 --conf spark.master=<SPARK_MASTER> \
 --conf spark.source=<SOURCE_DB> \
 --conf spark.save.type=<TYPE> \
@@ -66,14 +65,6 @@ spark-submit \
 --conf spark.dbtable=<TABLE> \
 --class Main <PATH_TO_JAR>\<NAME_OF_JAR>.jar
 ```
-- PACKAGES - Different dependencies that are required. F.eg.:
-
-    | Package | Description |
-    | ------ | ------ |
-    | com.ibm.db2:jcc:11.5.7.0 | Need for extracting data from DB2 on Cloud|
-    | mysql:mysql-connector-java:8.0.27 | Need for extracting data from MySQL|
-    | com.amazonaws:aws-java-sdk:1.11.46 | Need for saving data to COS |
-    | com.ibm.stocator:stocator:1.1.4 |  Need for saving data to COS |
     
 - SPARK_MASTER - The master URL for the cluster (e.g. spark://23.195.26.187:7077 or local[3])
 - SOURCE_DB - Database from which you extract data. Types currently supported: "mysql", "db2".
@@ -97,7 +88,6 @@ spark-submit \
 ### Example for saving data in local file system ("fs" type) with "db2" as source
 ```sh
 spark-submit \
---packages com.ibm.db2:jcc:11.5.7.0 \
 --conf spark.master=local[3] \
 --conf spark.source=db2 \
 --conf spark.save.type=fs \
@@ -107,13 +97,12 @@ spark-submit \
 --conf spark.username=qq11111 \
 --conf spark.password=AAA11Aaa1a111Aaa \
 --conf spark.dbtable=table \
---class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
+--class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice-assembly-0.1.0-SNAPSHOT.jar
 ``` 
 
 ### Example for saving data in Cloud Object Storage ("cos" type) with "mysql" as source
 ```sh
 spark-submit \
---packages mysql:mysql-connector-java:8.0.27,com.amazonaws:aws-java-sdk:1.11.46,com.ibm.stocator:stocator:1.1.4 \
 --conf spark.master=local[3] \
 --conf spark.source=mysql \
 --conf spark.save.type=cos \
@@ -126,5 +115,5 @@ spark-submit \
 --conf spark.username=root \
 --conf spark.password=root \
 --conf spark.dbtable=table \
---class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice_2.12-0.1.0-SNAPSHOT.jar
+--class Main C:\Users\User\DataEngineer_SparkPractice\target\scala-2.12\sparkPractice-assembly-0.1.0-SNAPSHOT.jar
 ``` 
