@@ -29,9 +29,9 @@ kubectl logs <YOUR_POD_NAME>
 	minikube start
 	```
 5) Configure RBAC: Allow service account default:default access namespace default, writing this coomand
- ```sh
-kubectl create clusterrolebinding default --clusterrole=edit --serviceaccount=default:default --namespace=default
-```
+	 ```sh
+	kubectl create clusterrolebinding default --clusterrole=edit --serviceaccount=default:default --namespace=default
+	```
 6) Write this to create a secrets pod on secrets.yaml file base:
 	```sh
 	kubectl apply -f ./secrets.yaml 
