@@ -1,4 +1,4 @@
-FROM bitnami/spark:latest
+FROM apache/spark:v3.2.1
 USER root
 RUN useradd -m -u 1001 spark
 USER spark
