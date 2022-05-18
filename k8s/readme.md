@@ -39,7 +39,7 @@ kubectl create clusterrolebinding default --clusterrole=edit --serviceaccount=de
 	
 7) Write this to create a executable pod on spark-k8s.yaml file base:
 	```sh
-	kubectl apply -f ./spark.yaml 
+	kubectl apply -f ./spark-k8s.yaml 
 	```
 	
 You can see logs, writing:
