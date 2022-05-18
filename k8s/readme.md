@@ -16,7 +16,7 @@
 	kubectl apply -f ./spark.yaml 
 	```
 	
-You can see logs, writing:
+### You can see logs, writing:
 ```sh
 kubectl logs <YOUR_POD_NAME>
 ```
@@ -42,7 +42,7 @@ kubectl logs <YOUR_POD_NAME>
 	kubectl apply -f ./spark-k8s.yaml 
 	```
 	
-You can see logs, writing:
+### You can see logs, writing:
 ```sh
 kubectl logs <YOUR_POD_NAME>
 ```
