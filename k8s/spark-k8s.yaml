@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spark_k8s
+spec:
+  containers:
+  - name: spark    
+    env:
+    - name: spark_save_type
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.save.type
+    - name: spark_path
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.path
+    - name: spark_master
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.master
+    - name: spark_fileName
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.fileName
+    - name: spark_access_key
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.access.key
+    - name: spark_secret_key
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.secret.key
+    - name: spark_endpoint
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.endpoint
+    - name: spark_source
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.source
+    - name: spark_source_url
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.source.url
+    - name: spark_source_username
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.source.username
+    - name: spark_source_password
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.source.password
+    - name: spark_dbtable
+      valueFrom:
+        secretKeyRef:
+            name: app-secrets
+            key: spark.dbtable
+    imagePullPolicy: IfNotPresent 
+    image: <YOUR_IMAGE_NAME>
+    command: ["/bin/sh", "-c"]
+    args:
+    - /opt/spark/bin/spark-submit --master $spark_master --deploy-mode cluster --conf spark.kubernetes.container.image=<YOUR_IMAGE_NAME> --conf spark.save.type=$spark_save_type --conf spark.path=$spark_path --conf spark.fileName=$spark_fileName --conf spark.access.key=$spark_access_key --conf spark.secret.key=$spark_secret_key --conf spark.endpoint=$spark_endpoint --conf spark.source=$spark_source --conf spark.source.url=$spark_source_url --conf spark.source.username=$spark_source_username --conf spark.source.password=$spark_source_password --conf spark.dbtable=$spark_dbtable --class Main local:///app/sparkPractice-assembly-0.1.0-SNAPSHOT.jar
+    ports:
+    - containerPort: 80
+      protocol: TCP
+  restartPolicy: Never
+    
+
+
+
+
+
+
