@@ -7,7 +7,7 @@ spec:
   - name: spark
     volumeMounts:
       - mountPath: "/spark-app"
-        name: <SECRET_NAME>
+        name: properties
         readOnly: true      
     imagePullPolicy: IfNotPresent 
     image:  <YOUR_IMAGE_NAME>
@@ -19,7 +19,7 @@ spec:
       protocol: TCP
   restartPolicy: Never
   volumes:
-    - name: <SECRET_NAME>
+    - name: properties
       secret:
         secretName: <SECRET_NAME>
 
