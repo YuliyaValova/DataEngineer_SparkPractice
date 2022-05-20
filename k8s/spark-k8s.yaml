@@ -13,7 +13,7 @@ spec:
     image:  <YOUR_IMAGE_NAME>
     command: ["/bin/sh", "-c"]
     args:
-    - /opt/spark/bin/spark-submit --properties-file /spark-app/properties --deploy-mode cluster --conf spark.kubernetes.container.image=<YOUR_IMAGE_NAME> --class Main local:///app/sparkPractice-assembly-0.1.0-SNAPSHOT.jar  
+    - /opt/spark/bin/spark-submit --properties-file /spark-app/secrets --deploy-mode cluster --conf spark.kubernetes.container.image=<YOUR_IMAGE_NAME> --class Main local:///app/sparkPractice-assembly-0.1.0-SNAPSHOT.jar  
     ports:
     - containerPort: 80
       protocol: TCP
