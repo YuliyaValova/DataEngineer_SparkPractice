@@ -21,8 +21,8 @@
 kubectl logs <YOUR_POD_NAME>
 ```
 # To run an app on Spark cluster, that is managed by Kubernetes, you need:	
-1) Download a spark.yaml file and secrets.yaml file.
-2) Add credentials and other configs in secrets.yaml (in format "key=value" (Parameter's descriptions - [here](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/README.md))). In this case as master you need to write your k8s-master address. For example: k8s://https://kubernetes.default.svc      
+1) Download a spark.yaml file and secrets.txt file.
+2) Add credentials and other configs in secrets.txt (in format "key=value" (Parameter's descriptions - [here](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/README.md))). In this case as master you need to write your k8s-master address. For example: k8s://https://kubernetes.default.svc      
 3) Start your k8s, e.g. if you use Minikube:
 	```sh
 	minikube start
