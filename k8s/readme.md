@@ -1,16 +1,16 @@
 # To start a spark job inside the pod you need:
 1) Download a spark.yaml file and secrets.txt file.
-2) Replace <YOUR_IMAGE_NAME> with your image name in spark.yaml
-3) Add credentials and other configs in secrets.txt (in format "key=value" (Parameter's descriptions - [here](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/README.md)))      
-4) Start your k8s, e.g. if you use Minikube:
+2) Add credentials and other configs in secrets.txt (in format "key=value" (Parameter's descriptions - [here](https://github.com/YuliyaValova/DataEngineer_SparkPractice/blob/master/README.md)))      
+3) Start your k8s, e.g. if you use Minikube:
 	```sh
 	minikube start
 	```
-5) Write this to create a secrets pod on secrets.txt file base:
+4) Write this to create a secrets pod on secrets.txt file base:
 	```sh
 	kubectl create secret generic <SECRET_NAME> --from-file ./<PATH_TO_FILE>/secrets.txt
 	```
-	
+5) Replace <YOUR_IMAGE_NAME> in spark.yaml with name of your docker image, replace <SECRET_NAME> with name of the secret, created in step 4.
+
 6) Write this to create a executable pod on spark.yaml file base:
 	```sh
 	kubectl apply -f ./spark.yaml 
@@ -36,7 +36,7 @@ kubectl logs <YOUR_POD_NAME>
 	kubectl create secret generic <SECRET_NAME> --from-file ./<PATH_TO_FILE>/secrets.txt 
 	```
 	
-6) Replace <YOUR_IMAGE_NAME> with name of your docker image, replace <SECRET_NAME> with name of the secret, created in step 5.
+6) Replace <YOUR_IMAGE_NAME> in spark-k8s.yaml with name of your docker image, replace <SECRET_NAME> with name of the secret, created in step 5.
 7) Write this to create a executable pod on spark-k8s.yaml file base:
 	```sh
 	kubectl apply -f ./spark-k8s.yaml 
