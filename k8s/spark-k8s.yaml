@@ -1,25 +1,32 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: spark-k8s
+  name: spark
 spec:
   containers:
-  - name: spark
+  - name: spark   
     volumeMounts:
       - mountPath: "/spark-app"
-        name: properties
-        readOnly: true      
+        name: db2-cos-conf
+        readOnly: true  
     imagePullPolicy: IfNotPresent 
     image:  <YOUR_IMAGE_NAME>
+    envFrom:
+       - secretRef:
+           name: cos-secrets
+       - secretRef:
+           name: db2-secrets
     command: ["/bin/sh", "-c"]
     args:
-    - /opt/spark/bin/spark-submit --properties-file /spark-app/secrets.txt --deploy-mode cluster --conf spark.kubernetes.container.image=<YOUR_IMAGE_NAME> --class Main local:///app/sparkPractice-assembly-0.1.0-SNAPSHOT.jar  
+    - /opt/spark/bin/spark-submit --properties-file /spark-app/db2-cos.yaml  --deploy-mode cluster --conf spark.kubernetes.container.image=<YOUR_IMAGE_NAME> --conf spark.path=$spark_path --conf spark.access.key=$spark_access_key --conf spark.secret.key=$spark_secret_key --conf spark.endpoint=$spark_endpoint --conf spark.source.url=$spark_source_url --conf spark.source.username=$spark_source_username --conf spark.source.password=$spark_source_password --class Main local:///app/sparkPractice-assembly-0.1.0-SNAPSHOT.jar
     ports:
     - containerPort: 80
       protocol: TCP
   restartPolicy: Never
   volumes:
-    - name: properties
-      secret:
-        secretName: <SECRET_NAME>
+    - name: db2-cos-conf 
+      configMap:
+        name:  <CONFIG_MAP_NAME>
+ 
+
 
