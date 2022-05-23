@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cos-secrets
+type: Opaque
+stringData:
+  spark_access_key: 
+  spark_secret_key: 
+  spark_endpoint:
+  
+
+
+
