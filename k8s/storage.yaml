@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: cos-secrets
+  name: storage-secrets
 type: Opaque
 stringData:
   spark_access_key: 
