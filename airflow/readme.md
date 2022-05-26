@@ -13,9 +13,9 @@
    airflow webserver -p 8080 
    ```
 5. Go to the UI: Admin->Connections->Add new and create spark_local connection to run a job locally.
-![image](https://user-images.githubusercontent.com/73712980/170561451-f822a87b-c828-456d-8aee-34279eadd2e2.png)
-
+![image](https://user-images.githubusercontent.com/73712980/170561684-faa75692-06d3-46f6-a8ea-cc38c3d77f40.png)
+Don't forget to set your spark-home location in Extra!
 6. Now trigger your dag
 
-> Be sure, that you have JAVA_HOME and SPARK_HOME at your workstation.
+> Be sure, that you have JAVA_HOME at your workstation.
 
