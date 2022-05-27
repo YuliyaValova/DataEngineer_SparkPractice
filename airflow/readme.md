@@ -1,5 +1,9 @@
-# Run a spark app (now just run all via spark-submit)
-1. Download this dag.py file, add parameters and locate it in your Airflow's dags_folder.
+# Current status:
+At the moment, this dag can only check for the presence of a config file in the specified path, and depending on this, choose one of two paths:
+1) If there is no file, send an error message to telegram
+2) If the file exists, the spark part of the application is executed (at the same time, the configs are still taken from the --conf, but not from config file)
+#  Run a spark app (now just run all via spark-submit)
+1. Download this dag.py file, add parameters (database, cos, app and telegram conf) and locate it in your Airflow's dags_folder.
 2. Write this to initialize Airflow database:
     ```sh
     airflow db init
