@@ -6,3 +6,4 @@ I tried:
 3. Write it in format --conf key=value in "application" before app jar (in the hope that since it is launched via cmd, it will simply substitute them in the spark-submit line)
 <br>
 I have no ideas anymore...
+
