@@ -25,5 +25,8 @@ At the moment, this dag can only check for the presence of a config file in the 
 6. Now trigger your dag
 <br>
 
-> Be sure, that you have JAVA_HOME at your workstation.
+   > Be sure, that you have JAVA_HOME at your workstation.
+
+# Problems:
+Since I run the application through BashOperator and not through the SparkSubmitOperator (why - in not_work folder), confidential information is broadcast in the logs. There is a similar problem in the read_cred task, since in the logs you can see configs from the file in the value, returned by the function.
 
