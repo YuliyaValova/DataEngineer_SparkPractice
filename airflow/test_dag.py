@@ -27,12 +27,10 @@ def read_cred(file):
 
     return confs
     file1.close
-
-
     
 def sendMessage(message, **kwargs):
-    bot_token = '5266020788:AAFwxyJt1vryO2yT1f0DWyRBGggSJoLzpcM'
-    bot_chatID = '663207258' 
+    bot_token = ''
+    bot_chatID = '' 
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + message
     requests.get(send_text)
  
@@ -48,7 +46,7 @@ with DAG(
         task_id="read_cred",
         provide_context=True,
         python_callable=read_cred,
-        op_kwargs={"file": '/mnt/c/conf/spark.txt'}
+        op_kwargs={"file": <FILE_WITH_FULL_PATH>'}
   )
         
     send_failed = PythonOperator(
@@ -70,7 +68,7 @@ with DAG(
     submit_job = BashOperator(
         trigger_rule= 'one_success',
         task_id="Spark-app",
-        bash_command='/mnt/d/spark/spark-3.1.3-bin-hadoop3.2/bin/spark-submit --master=local[*] ' + "{{ti.xcom_pull(task_ids='read_cred')}}" + ' --class Main /mnt/c/Users/User/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar'
+        bash_command='<SPARK_HOME>/spark-submit --master=local[*] ' + "{{ti.xcom_pull(task_ids='read_cred')}}" + ' --class Main <PATH_TO_JAR>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar'
         
     )
     
