@@ -15,18 +15,17 @@ from airflow.operators.python_operator import PythonOperator
 import requests
 
 def read_cred(file):
-    d = []
+    confs = ""
     file1 = open(file, "r")
 
     while True:
         line = file1.readline()
         if line:
-            d.append(line.strip())
+            confs += "--conf " + line.strip() + " "
         else:
             break
     file1.close
-    return d
-
+    return confs
 
     
 def sendMessage(message, **kwargs):
