@@ -14,18 +14,32 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.python_operator import PythonOperator
 import requests
 
-def read_cred(file):
+def read_cred(file, **kwargs):
     confs = ""
+    db_cred = [""]*5
     file1 = open(file, "r")
 
     while True:
         line = file1.readline()
         if line:
             confs += "--conf " + line.strip() + " "
+            key, sep, value = line.strip().partition("=")
+            if key == "spark.source":
+                db_cred[0] = value                
+            elif key == "spark.source.url":
+                db_cred[1] = value
+            elif key == "spark.source.username":
+                db_cred[2] = value
+            elif key == "spark.source.password":
+                db_cred[3] = value
+            elif key == "spark.dbtable":
+                db_cred[4] = value
         else:
             break
-
-    return confs
+    cred = ' '.join(db_cred)
+    task_instance = kwargs['task_instance']
+    task_instance.xcom_push(key='all_conf', value=confs)
+    task_instance.xcom_push(key='db_conf', value=cred)
     file1.close
     
 def sendMessage(message, **kwargs):
@@ -66,11 +80,16 @@ with DAG(
   
     
     submit_job = BashOperator(
-        trigger_rule= 'one_success',
         task_id="Spark-app",
-        bash_command='<SPARK_HOME>/spark-submit --master=local[*] ' + "{{ti.xcom_pull(task_ids='read_cred')}}" + ' --class Main <PATH_TO_JAR>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar'
+        bash_command='<SPARK_HOME>/spark-submit --master=local[*] ' + "{{ti.xcom_pull(task_ids='read_cred',key='all_conf')}}" + ' --class Main <PATH_TO_SPARK_PROJECT>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar'
         
     )
+                   
+    create_table = BashOperator(
+        trigger_rule= 'one_success',
+        task_id="create_table",
+        bash_command='java -cp <PATH_TO_SCALA_PROJECT>/DataEngineer_ScalaPractice/target/scala-2.13/DataEngineer_ScalaPractice-assembly-0.1.0-SNAPSHOT.jar load.LoadStarter ' + "{{ti.xcom_pull(task_ids='read_cred',key='db_conf')}}"
+    )
     
-    read_cred >> [submit_job, send_failed] 
-    submit_job >> send_success
+    read_cred >> [create_table, send_failed] 
+    create_table >> submit_job >> send_success
