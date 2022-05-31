@@ -1,9 +1,9 @@
 # Current status:
 At the moment, this dag can only check for the presence of a config file in the specified path, and depending on this, choose one of two paths:
 1) If there is no file, send an error message to telegram
-2) If the file exists, the spark part of the application is executed and in case success sends a message in Telegram.
+2) If the file exists, a new table generated, the spark part of the application is executed and in case success sends a message in Telegram.
 # DAG
-![image](https://user-images.githubusercontent.com/73712980/170789012-96e7ebd1-ae10-4204-b3cd-dbeae998ec64.png)
+![image](https://user-images.githubusercontent.com/73712980/171275175-56a3558e-5b73-4c0e-a19b-fd8c11da4fb9.png)
 #  Run a spark app (now just run all via spark-submit)
 1. Download conf.txt file and add parameters for db2/cos connection and app properties.
 2. Download this dag.py file, add missing parameters (also bot_token and chat_id) and locate it in your Airflow's dags_folder.
