@@ -9,7 +9,7 @@ At the moment, this dag can only check for the presence of a config file in the 
 2. Download this dag.py file, add missing parameters (also bot_token and chat_id) and locate it in your Airflow's dags_folder.
     - <SPARK_HOME> - path to your spark\bin folder
     - <FILE_WITH_FULL_PATH> - full path and name of the config file, downloaded in step 1
-    - <PATH_TO_JAR> - path to place where your project folder (DataEngineer_SparkPractice) is located
+    - <PATH_TO_SCALA/SPARK_PROJECT> - path to place where your project folder (DataEngineer_SparkPractice/DataEngineer_ScalaPractice) is located
 3. Write this to initialize Airflow database:
     ```sh
     airflow db init
