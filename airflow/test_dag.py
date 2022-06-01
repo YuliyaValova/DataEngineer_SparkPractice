@@ -62,7 +62,7 @@ def sendMessage(message, **kwargs):
  
 with DAG(
     dag_id='DAG',
-    schedule_interval=None,
+    schedule_interval='* */4 * * *',
     start_date=datetime(2021, 1, 1),
     catchup=False,
     tags=['example']
