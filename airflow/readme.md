@@ -8,7 +8,7 @@ At the moment, this dag:
 6. Send "Success" message to the Telegram 
 # DAG
 ![image](https://user-images.githubusercontent.com/73712980/171383721-d0feed53-d811-4542-8f13-7f12082f67d9.png)
-#  Run a spark app (now just run all via spark-submit)
+#  Run
 1. Download conf.txt file and add parameters for db2/cos connection and app properties.
 2. Download this dag.py file, add missing parameters (also bot_token and chat_id) and locate it in your Airflow's dags_folder.
     - <YOUR_BOT_TOKEN> - telegram-bot token for sending messages
