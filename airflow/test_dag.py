@@ -38,12 +38,12 @@ def read_cred(file, **kwargs):
     file1.close
    
 def check_connection():
-    connection = JdbcHook(jdbc_conn_id="db2")
+    connection = JdbcHook(jdbc_conn_id="my_db2")
     result=connection.test_connection()
     return "table_exists" if result else "send_failed"
     
 def table_exists(**kwargs):
-    connection = JdbcHook(jdbc_conn_id="db2")
+    connection = JdbcHook(jdbc_conn_id="my_db2")
     ti = kwargs['ti']
     db_conf = ti.xcom_pull(task_ids='read_cred',key='db_conf')
     table_name = db_conf.split()[-1]
