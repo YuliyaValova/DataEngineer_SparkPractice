@@ -38,4 +38,5 @@ At the moment, this dag:
 
 # Problems:
 - Since I run the application through BashOperator and not through the SparkSubmitOperator (why - in not_work folder), confidential information is broadcast in the logs.
+- Need to get jdbc driver from app
 
