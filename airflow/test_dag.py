@@ -1,18 +1,12 @@
 from datetime import datetime
 
 from airflow.models import DAG
-from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 from airflow.operators.bash import BashOperator
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python_operator import BranchPythonOperator
+from airflow.providers.jdbc.hooks.jdbc import JdbcHook
 import requests
 
-from datetime import datetime
-
-from airflow.models import DAG
-from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
-from airflow.operators.bash import BashOperator
-from airflow.operators.python_operator import PythonOperator
-import requests
 
 def read_cred(file, **kwargs):
     confs = ""
@@ -41,15 +35,33 @@ def read_cred(file, **kwargs):
     task_instance.xcom_push(key='all_conf', value=confs)
     task_instance.xcom_push(key='db_conf', value=cred)
     file1.close
+   
+def check_connection():
+    connection = JdbcHook(jdbc_conn_id="db2")
+    result=connection.test_connection()
+    return "table_exists" if result else "send_failed"
+    
+def table_exists(**kwargs):
+    connection = JdbcHook(jdbc_conn_id="db2")
+    ti = kwargs['ti']
+    db_conf = ti.xcom_pull(task_ids='read_cred',key='db_conf')
+    table_name = db_conf.split()[-1]
+    query = "SELECT COUNT(*) FROM " + table_name
+    status = "spark_app"
+    try:
+        result = connection.run(query, autocommit=True)
+    except:
+        status = "create_table"    
+    return  status
     
 def sendMessage(message, **kwargs):
-    bot_token = ''
-    bot_chatID = '' 
+    bot_token = '<YOUR_BOT_TOKEN>'
+    bot_chatID = '<YOUR_CHAT_ID>' 
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + message
     requests.get(send_text)
  
 with DAG(
-    dag_id='ABash_5',
+    dag_id='DAG',
     schedule_interval=None,
     start_date=datetime(2021, 1, 1),
     catchup=False,
@@ -60,8 +72,18 @@ with DAG(
         task_id="read_cred",
         provide_context=True,
         python_callable=read_cred,
-        op_kwargs={"file": <FILE_WITH_FULL_PATH>'}
+        op_kwargs={"file": '<FILE_WITH_FULL_PATH>'}
   )
+  
+    check_connection = BranchPythonOperator(
+        task_id="check_connection",
+        python_callable=check_connection
+    )
+    
+    table_exists = BranchPythonOperator(
+        task_id="table_exists",
+        python_callable=table_exists
+    )
         
     send_failed = PythonOperator(
         task_id="send_failed", 
@@ -78,18 +100,22 @@ with DAG(
         op_kwargs={"message":  'Job completed!'}
   )
   
+  
     
-    submit_job = BashOperator(
-        task_id="Spark-app",
+    spark_app = BashOperator(
+        trigger_rule = 'one_success',
+        task_id="spark_app",
         bash_command='<SPARK_HOME>/spark-submit --master=local[*] ' + "{{ti.xcom_pull(task_ids='read_cred',key='all_conf')}}" + ' --class Main <PATH_TO_SPARK_PROJECT>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar'
         
     )
-                   
+    
     create_table = BashOperator(
-        trigger_rule= 'one_success',
+        trigger_rule = 'one_success',
         task_id="create_table",
         bash_command='java -cp <PATH_TO_SCALA_PROJECT>/DataEngineer_ScalaPractice/target/scala-2.13/DataEngineer_ScalaPractice-assembly-0.1.0-SNAPSHOT.jar load.LoadStarter ' + "{{ti.xcom_pull(task_ids='read_cred',key='db_conf')}}"
     )
-    
-    read_cred >> [create_table, send_failed] 
-    create_table >> submit_job >> send_success
+        
+    read_cred >> check_connection >> [table_exists, send_failed]
+    table_exists >> [create_table, spark_app]
+    create_table >> spark_app
+    spark_app >> send_success
