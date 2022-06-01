@@ -13,9 +13,12 @@ At the moment, this dag:
 2. Download this dag.py file, add missing parameters (also bot_token and chat_id) and locate it in your Airflow's dags_folder.
     - <YOUR_BOT_TOKEN> - telegram-bot token for sending messages
     - <YOUR_CHAT_ID> - id of your telegram chat
-    - <SPARK_HOME> - path to your spark\bin folder
+    - <SPARK_HOME> - path to your spark\bin folder 
     - <FILE_WITH_FULL_PATH> - full path and name of the config file, downloaded in step 1
     - <PATH_TO_SCALA/SPARK_PROJECT> - path to place where your project folder (DataEngineer_SparkPractice/DataEngineer_ScalaPractice) is located
+    
+   Check that you change <PATH_TO_SPARK_PROJECT> in 2 places
+    
 3. Write this to initialize Airflow database:
     ```sh
     airflow db init
@@ -37,5 +40,4 @@ At the moment, this dag:
 
 # Problems:
 - Since I run the application through BashOperator and not through the SparkSubmitOperator (why - in not_work folder), confidential information is broadcast in the logs. There is a similar problem in the read_cred task, since in the logs you can see configs from the file in the value, returned by the function.
-- Now to check connection and check existing of source table I use Airflow connection, but I want to create it from file in dag in future
 
