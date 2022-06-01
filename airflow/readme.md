@@ -31,9 +31,7 @@ At the moment, this dag:
     ```sh
    airflow webserver -p 8080 
    ```
-6. Create a db2 connection (need to check if source table exists)
-![image](https://user-images.githubusercontent.com/73712980/171385300-4c2954f5-eb03-4e3e-9c83-4d2c5f9b07a5.png)
-7. Trigger your dag
+6. Trigger your dag
 <br>
 
    > Be sure, that you have JAVA_HOME at your workstation.
