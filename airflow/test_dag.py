@@ -7,7 +7,6 @@ from airflow.operators.python_operator import BranchPythonOperator
 from airflow.providers.jdbc.hooks.jdbc import JdbcHook
 import requests
 
-
 def read_cred(file, **kwargs):
     confs = ""
     db_cred = [""]*5
@@ -22,8 +21,7 @@ def read_cred(file, **kwargs):
                 db_cred[0] = value
             elif key == "spark.source.url":
                 db_cred[1] = value
-                host = "jdbc:db2://" + value.split("/")[-2].split(":")[-2]
-                port = value.split(":")[3].split("/")[0]
+                host = value + ":sslConnection=true;"               
             elif key == "spark.source.username":
                 db_cred[2] = value
                 login = value
@@ -38,7 +36,7 @@ def read_cred(file, **kwargs):
     task_instance = kwargs['task_instance']
     task_instance.xcom_push(key='all_conf', value=confs)
     task_instance.xcom_push(key='db_conf', value=cred)
-    os.system("airflow connections add 'my_db2' --conn-type 'jdbc' --conn-login '" + login + "'  --conn-password '" + password + "' --conn-host '" + host + "' --conn-port '" + port + "' --conn-schema 'bludb' --conn-extra \'{\"extra__jdbc__drv_clsname\":\"com.ibm.db2.jcc.DB2Driver\",\"extra__jdbc__drv_path\":\"/mnt/c/Users/User/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar\"}\'")
+    os.system("airflow connections add 'my_db2' --conn-type 'jdbc' --conn-login '" + login + "' --conn-password '" + password + "' --conn-host '" + host + "' --conn-extra \'{\"extra__jdbc__drv_clsname\":\"com.ibm.db2.jcc.DB2Driver\",\"extra__jdbc__drv_path\":\"/mnt/c/conf/jcc-11.5.7.0.jar\"}\'")
     file1.close
    
 def check_connection():
