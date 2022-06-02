@@ -17,7 +17,7 @@ At the moment, this dag:
     - <FILE_WITH_FULL_PATH> - full path and name of the config file, downloaded in step 1
     - <PATH_TO_SCALA/SPARK_PROJECT> - path to place where your project folder (DataEngineer_SparkPractice/DataEngineer_ScalaPractice) is located
     
-   Check that you change <PATH_TO_SPARK_PROJECT> in 2 places
+   Check that you change <PATH_TO_SPARK_PROJECT> in 2 places (lines 39 and 111)
     
 3. Write this to initialize Airflow database:
     ```sh
