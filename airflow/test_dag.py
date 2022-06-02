@@ -36,7 +36,7 @@ def read_cred(file, **kwargs):
     task_instance = kwargs['task_instance']
     task_instance.xcom_push(key='all_conf', value=confs)
     task_instance.xcom_push(key='db_conf', value=cred)
-    os.system("airflow connections add 'my_db2' --conn-type 'jdbc' --conn-login '" + login + "' --conn-password '" + password + "' --conn-host '" + host + "' --conn-extra \'{\"extra__jdbc__drv_clsname\":\"com.ibm.db2.jcc.DB2Driver\",\"extra__jdbc__drv_path\":\"/mnt/c/conf/jcc-11.5.7.0.jar\"}\'")
+    os.system("airflow connections add 'my_db2' --conn-type 'jdbc' --conn-login '" + login + "' --conn-password '" + password + "' --conn-host '" + host + "' --conn-extra \'{\"extra__jdbc__drv_clsname\":\"com.ibm.db2.jcc.DB2Driver\",\"extra__jdbc__drv_path\":\"<PATH_TO_SPARK_PROJECT>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar\"}\'")
     file1.close
    
 def check_connection():
