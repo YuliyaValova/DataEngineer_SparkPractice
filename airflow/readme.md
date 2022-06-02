@@ -6,6 +6,7 @@ At the moment, this dag:
 4. Create and fill the table in DB2
 5. Run ETL process (read from db2, calc sum per year, load to cos) with spark
 6. Send "Success" message to the Telegram 
+7. Job scheduled every 4 hours
 # DAG
 ![image](https://user-images.githubusercontent.com/73712980/171383721-d0feed53-d811-4542-8f13-7f12082f67d9.png)
 #  Run
