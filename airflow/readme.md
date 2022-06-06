@@ -55,7 +55,3 @@ At the moment, this dag:
 <br>
 
    > Be sure, that you have JAVA_HOME at your workstation.
-
-# Problems:
-- check_connection doesn't work correctly
-
