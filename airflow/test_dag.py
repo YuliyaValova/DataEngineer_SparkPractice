@@ -6,6 +6,8 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.python_operator import BranchPythonOperator
 from airflow.providers.jdbc.hooks.jdbc import JdbcHook
 import requests
+from airflow.models import Variable
+config  = Variable.get("conf", deserialize_json=True)
 
 def read_cred(file, **kwargs):
     confs = ""
@@ -105,10 +107,14 @@ with DAG(
   
   
     
-    spark_app = BashOperator(
-        trigger_rule = 'one_success',
+    spark_app = SparkSubmitOperator(
         task_id="spark_app",
-        bash_command='<SPARK_HOME>/spark-submit --master=local[*] ' + "{{ti.xcom_pull(task_ids='read_cred',key='all_conf')}}" + ' --class Main <PATH_TO_SPARK_PROJECT>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar'
+        trigger_rule = 'one_success',
+        conn_id='spark_local',
+        name='spark-practice',
+        application="/mnt/c/Users/User/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar",
+        conf=config,
+        java_class="Main"
         
     )
     
