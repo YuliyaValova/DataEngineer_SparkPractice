@@ -3,43 +3,24 @@ from datetime import datetime
 from airflow.models import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python_operator import PythonOperator
+from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 from airflow.operators.python_operator import BranchPythonOperator
 from airflow.providers.jdbc.hooks.jdbc import JdbcHook
 import requests
+import json
+import os
 from airflow.models import Variable
 config  = Variable.get("conf", deserialize_json=True)
 
-def read_cred(file, **kwargs):
-    confs = ""
-    db_cred = [""]*5
-    file1 = open(file, "r")
-
-    while True:
-        line = file1.readline()
-        if line:
-            confs += "--conf " + line.strip() + " "
-            key, sep, value = line.strip().partition("=")
-            if key == "spark.source":
-                db_cred[0] = value
-            elif key == "spark.source.url":
-                db_cred[1] = value
-                host = value + ":sslConnection=true;"               
-            elif key == "spark.source.username":
-                db_cred[2] = value
-                login = value
-            elif key == "spark.source.password":
-                db_cred[3] = value
-                password = value
-            elif key == "spark.dbtable":
-                db_cred[4] = value
-        else:
-            break
-    cred = ' '.join(db_cred)
-    task_instance = kwargs['task_instance']
-    task_instance.xcom_push(key='all_conf', value=confs)
-    task_instance.xcom_push(key='db_conf', value=cred)
-    os.system("airflow connections add 'my_db2' --conn-type 'jdbc' --conn-login '" + login + "' --conn-password '" + password + "' --conn-host '" + host + "' --conn-extra \'{\"extra__jdbc__drv_clsname\":\"com.ibm.db2.jcc.DB2Driver\",\"extra__jdbc__drv_path\":\"<PATH_TO_SPARK_PROJECT>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar\"}\'")
-    file1.close
+def read_cred(conf_json, **kwargs):
+    conf_json = json.dumps(conf_json)
+    param = json.loads(conf_json)
+    db_conf = param["spark.source"] + " " + param["spark.source.url"] + " " + param["spark.source.username"] + " " + param["spark.source.password"] + " " +  param["spark.dbtable"]
+    login = param["spark.source.username"]
+    password = param["spark.source.password"]
+    host = param["spark.source.url"] + ":sslConnection=true;"
+    os.system("airflow connections add 'my_db2' --conn-type 'jdbc' --conn-login '" + login + "' --conn-password '" + password + "' --conn-host '" + host + "' --conn-extra \'{\"extra__jdbc__drv_clsname\":\"com.ibm.db2.jcc.DB2Driver\",\"extra__jdbc__drv_path\":\"/mnt/c/Users/User/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar\"}\'")
+    os.system("airflow variables set db2_conf '" + db_conf + "'")
    
 def check_connection():
     connection = JdbcHook(jdbc_conn_id="my_db2")
@@ -48,15 +29,15 @@ def check_connection():
     
 def table_exists(**kwargs):
     connection = JdbcHook(jdbc_conn_id="my_db2")
-    ti = kwargs['ti']
-    db_conf = ti.xcom_pull(task_ids='read_cred',key='db_conf')
-    table_name = db_conf.split()[-1]
+    db_conf = json.dumps(config)
+    param = json.loads(db_conf)
+    table_name = param["spark.dbtable"]
     query = "SELECT COUNT(*) FROM " + table_name
     status = "spark_app"
     try:
         result = connection.run(query, autocommit=True)
     except:
-        status = "create_table"    
+        status = "create_table" 
     return  status
     
 def sendMessage(message, **kwargs):
@@ -77,7 +58,7 @@ with DAG(
         task_id="read_cred",
         provide_context=True,
         python_callable=read_cred,
-        op_kwargs={"file": '<FILE_WITH_FULL_PATH>'}
+        op_kwargs={"conf_json": config}
   )
   
     check_connection = BranchPythonOperator(
@@ -109,7 +90,7 @@ with DAG(
     
     spark_app = SparkSubmitOperator(
         task_id="spark_app",
-        trigger_rule = 'one_success',
+        trigger_rule = 'none_failed',
         conn_id='spark_local',
         name='spark-practice',
         application="/mnt/c/Users/User/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar",
@@ -121,7 +102,7 @@ with DAG(
     create_table = BashOperator(
         trigger_rule = 'one_success',
         task_id="create_table",
-        bash_command='java -cp <PATH_TO_SCALA_PROJECT>/DataEngineer_ScalaPractice/target/scala-2.13/DataEngineer_ScalaPractice-assembly-0.1.0-SNAPSHOT.jar load.LoadStarter ' + "{{ti.xcom_pull(task_ids='read_cred',key='db_conf')}}"
+        bash_command='java -cp /mnt/c/Users/User/DataEngineer_ScalaPractice/target/scala-2.13/DataEngineer_ScalaPractice-assembly-0.1.0-SNAPSHOT.jar load.LoadStarter ' + Variable.get("db2_conf", default_var=None)  
     )
         
     read_cred >> check_connection >> [table_exists, send_failed]
