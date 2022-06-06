@@ -24,8 +24,9 @@ def read_cred(conf_json, **kwargs):
    
 def check_connection():
     connection = JdbcHook(jdbc_conn_id="my_db2")
+    connection._test_connection_sql  = "values 666;"
     status, message=connection.test_connection()
-    return  "send_failed"  if status==False else "table_exists"
+    return "send_failed"  if status==False else "table_exists"
     
 def table_exists(**kwargs):
     connection = JdbcHook(jdbc_conn_id="my_db2")
