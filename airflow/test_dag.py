@@ -41,8 +41,8 @@ def read_cred(file, **kwargs):
    
 def check_connection():
     connection = JdbcHook(jdbc_conn_id="my_db2")
-    result=connection.test_connection()
-    return "table_exists" if result else "send_failed"
+    status, message=connection.test_connection()
+    return  "send_failed"  if status==False else "table_exists"
     
 def table_exists(**kwargs):
     connection = JdbcHook(jdbc_conn_id="my_db2")
