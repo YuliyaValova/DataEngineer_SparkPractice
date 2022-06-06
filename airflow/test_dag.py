@@ -19,7 +19,7 @@ def read_cred(conf_json, **kwargs):
     login = param["spark.source.username"]
     password = param["spark.source.password"]
     host = param["spark.source.url"] + ":sslConnection=true;"
-    os.system("airflow connections add 'my_db2' --conn-type 'jdbc' --conn-login '" + login + "' --conn-password '" + password + "' --conn-host '" + host + "' --conn-extra \'{\"extra__jdbc__drv_clsname\":\"com.ibm.db2.jcc.DB2Driver\",\"extra__jdbc__drv_path\":\"/mnt/c/Users/User/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar\"}\'")
+    os.system("airflow connections add 'my_db2' --conn-type 'jdbc' --conn-login '" + login + "' --conn-password '" + password + "' --conn-host '" + host + "' --conn-extra \'{\"extra__jdbc__drv_clsname\":\"com.ibm.db2.jcc.DB2Driver\",\"extra__jdbc__drv_path\":\"<PATH_TO_SPARK_PROJECT>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar\"}\'")
     os.system("airflow variables set db2_conf '" + db_conf + "'")
    
 def check_connection():
@@ -93,7 +93,7 @@ with DAG(
         trigger_rule = 'none_failed',
         conn_id='spark_local',
         name='spark-practice',
-        application="/mnt/c/Users/User/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar",
+        application="<PATH_TO_SPARK_PROJECT>/DataEngineer_SparkPractice/target/scala-2.12/sparkPractice-assembly-0.1.0-SNAPSHOT.jar",
         conf=config,
         java_class="Main"
         
@@ -102,7 +102,7 @@ with DAG(
     create_table = BashOperator(
         trigger_rule = 'one_success',
         task_id="create_table",
-        bash_command='java -cp /mnt/c/Users/User/DataEngineer_ScalaPractice/target/scala-2.13/DataEngineer_ScalaPractice-assembly-0.1.0-SNAPSHOT.jar load.LoadStarter ' + Variable.get("db2_conf", default_var=None)  
+        bash_command='java -cp <PATH_TO_SCALA_PROJECT>/DataEngineer_ScalaPractice/target/scala-2.13/DataEngineer_ScalaPractice-assembly-0.1.0-SNAPSHOT.jar load.LoadStarter ' + Variable.get("db2_conf", default_var=None)  
     )
         
     read_cred >> check_connection >> [table_exists, send_failed]
